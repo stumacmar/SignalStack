@@ -1,0 +1,26 @@
+name: Run SignalStack
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'  # Runs every day at 7:00 UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip pandas numpy yfinance requests beautifulsoup4
+
+      - name: Run SignalStack Core
+        run: python signalstack_core.py
